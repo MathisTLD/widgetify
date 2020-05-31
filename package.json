@@ -1,0 +1,19 @@
+{
+  "name": "widgetify",
+  "version": "0.0.0",
+  "description": "A Vue plugin implementing a widget system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MathisTLD/widgetify.git"
+  },
+  "author": "Mathis TLD",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MathisTLD/widgetify/issues"
+  },
+  "homepage": "https://github.com/MathisTLD/widgetify#readme"
+}
