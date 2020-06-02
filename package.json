@@ -1,6 +1,6 @@
 {
   "name": "widgetify",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A Vue plugin implementing a widget system",
   "main": "lib/index.js",
   "scripts": {
