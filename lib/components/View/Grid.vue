@@ -1,5 +1,5 @@
 <template>
-  <div class="view-grid-wrapper">
+  <div class="view-grid-wrapper" :style="{ height, width }">
     <div :style="{ ...gridTemplate }" class="view-grid">
       <div
         v-for="area in view.areas"
@@ -20,6 +20,12 @@ export default {
     id: {
       type: String,
       required: true,
+    },
+    height: {
+      default: "100%",
+    },
+    width: {
+      default: "100%",
     },
   },
   computed: {
@@ -78,8 +84,6 @@ export default {
 
 <style scoped>
 .view-grid-wrapper {
-  height: 100%;
-  width: 100%;
   display: block;
 }
 .view-grid {
