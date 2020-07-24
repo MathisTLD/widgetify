@@ -236,6 +236,7 @@ export default {
     > * {
       height: 100%;
     }
+    overflow: hidden;
   }
 }
 .widgetConfig {
