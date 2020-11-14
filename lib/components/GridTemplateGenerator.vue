@@ -1,19 +1,36 @@
 <template>
   <div :style="{ height, width }" class="GridTemplateGenerator">
-    <div>
-      <slot name="controls" :rows="nRow" :columns="nCol">
-        <div class="gridControls">
-          rows : <input v-model.number="nRow" type="number" class="nbInput" />
-          columns :
-          <input v-model.number="nCol" type="number" class="nbInput" />
-        </div>
-      </slot>
+    <div class="d-flex flex-nowrap justify-center pa-2">
+      <div class="v-shrink mx-2">
+        <v-text-field
+          label="Rows"
+          type="number"
+          v-model.number="nRow"
+          outlined
+          hide-details
+          dense
+          min="1"
+          style="max-width: 75px;"
+        />
+      </div>
+      <div class="v-shrink mx-2">
+        <v-text-field
+          label="Cols"
+          type="number"
+          v-model.number="nCol"
+          outlined
+          hide-details
+          dense
+          min="1"
+          style="max-width: 75px;"
+        />
+      </div>
     </div>
     <div
       class="grid"
       :style="{
         'grid-template-rows': cssTemplate.rows,
-        'grid-template-columns': cssTemplate.columns
+        'grid-template-columns': cssTemplate.columns,
       }"
       @mouseup="endSelection()"
     >
@@ -49,22 +66,22 @@ import _cloneDeep from "lodash/cloneDeep";
 export default {
   props: {
     height: {
-      default: "100%"
+      default: "100%",
     },
     width: {
-      default: "100%"
+      default: "100%",
     },
     init: {
       type: Object,
       default: () => ({
         areas: [
           [".", "."],
-          [".", "."]
+          [".", "."],
         ],
         rows: ["1fr", "1fr"],
-        columns: ["1fr", "1fr"]
-      })
-    }
+        columns: ["1fr", "1fr"],
+      }),
+    },
   },
   data() {
     return {
@@ -74,7 +91,7 @@ export default {
       nRow: 0,
       columns: [],
       nCol: 0,
-      hoveredCell: null
+      hoveredCell: null,
     };
   },
   computed: {
@@ -82,7 +99,7 @@ export default {
       let { areas, rows, columns } = this;
       let row = Array.from(Array(columns.length), () => ".");
       let layout = Array.from(Array(rows.length), () => _cloneDeep(row));
-      areas.forEach(area => {
+      areas.forEach((area) => {
         let [a, b, c, d] = area.area;
         for (let y = a; y < c; y++) {
           for (let x = b; x < d; x++) {
@@ -104,7 +121,7 @@ export default {
           let row = y + 1;
           cells.push({
             id: row + "" + col,
-            area: [row, col, row + 1, col + 1]
+            area: [row, col, row + 1, col + 1],
           });
         });
       });
@@ -112,7 +129,7 @@ export default {
     },
     hash() {
       return this.cssTemplate.areas;
-    }
+    },
   },
   watch: {
     hash() {
@@ -128,11 +145,11 @@ export default {
     },
     nCol() {
       this.setGridLayout();
-    }
+    },
   },
   methods: {
     deleteArea(id) {
-      this.areas = this.areas.filter(area => area.id != id);
+      this.areas = this.areas.filter((area) => area.id != id);
     },
     startSelection(cell) {
       let layout = this.template.layout;
@@ -140,14 +157,14 @@ export default {
       let id = "area_" + this.createdAreas;
       let area = { id, area: cell.area };
       this.areas.push(area);
-      let onCellHover = cell => {
+      let onCellHover = (cell) => {
         let [a, b, c, d] = area.area;
         let [e, f, g, h] = cell.area;
         let newArea = [
           Math.min(a, e),
           Math.min(b, f),
           Math.max(c, g),
-          Math.max(d, h)
+          Math.max(d, h),
         ];
         // check for overlap
         [a, b, c, d] = newArea;
@@ -191,7 +208,7 @@ export default {
         }
       }
       // sanitize areas
-      this.areas = this.areas.filter(area => {
+      this.areas = this.areas.filter((area) => {
         let [a, b, c, d] = area.area;
         if (c > nRow + 1) c = nRow + 1;
         if (d > nCol + 1) d = nCol + 1;
@@ -201,7 +218,7 @@ export default {
     },
     templateToCss(template) {
       let { layout, rows, columns } = _cloneDeep(template);
-      let areas = layout.map(row => '"' + row.join(" ") + '"').join(" ");
+      let areas = layout.map((row) => '"' + row.join(" ") + '"').join(" ");
       rows = rows.join(" ");
       columns = columns.join(" ");
       return { areas, rows, columns };
@@ -209,7 +226,7 @@ export default {
     updateTemplate() {
       let { layout, rows, columns } = this.template;
       this.$emit("update:template", { areas: layout, rows, columns });
-    }
+    },
   },
   created() {
     let { areas, rows, columns } = this.init;
@@ -232,16 +249,17 @@ export default {
       });
     });
     this.createdAreas =
-      _max(Object.values(areasMap).map(a => parseFloat(a.id.split("_")[1]))) ||
-      0;
+      _max(
+        Object.values(areasMap).map((a) => parseFloat(a.id.split("_")[1]))
+      ) || 0;
 
-    this.areas = Object.values(areasMap).map(a => {
+    this.areas = Object.values(areasMap).map((a) => {
       let { x, y } = a;
       let area = [_min(y), _min(x), _max(y) + 1, _max(x) + 1];
       return { id: a.id, area };
     });
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 

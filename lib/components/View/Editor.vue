@@ -1,21 +1,24 @@
 <template>
   <v-card>
     <v-card-actions>
-      <v-container>
+      <v-container class="pt-2 pb-0">
         <v-row>
-          <v-col cols="10">
+          <v-col cols="10" class="py-0">
             <v-text-field
               v-model="view.name"
               flat
               solo-inverted
               hide-details
+              dense
             ></v-text-field>
           </v-col>
-          <v-col cols="2">
+          <v-col cols="2" class="py-0">
             <v-text-field
               type="number"
               v-model.number="view.index"
-              solo
+              solo-inverted
+              hide-details
+              dense
               min="1"
             />
           </v-col>
