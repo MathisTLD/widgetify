@@ -21,6 +21,10 @@ export default {
       type: String,
       required: true,
     },
+    preview: {
+      type: Boolean,
+      default: false,
+    },
     height: {
       default: "100%",
     },
@@ -53,13 +57,16 @@ export default {
         let widget = widgets.get(area.widget);
 
         let { vuetify } = this.$root.$options;
-        let component = vm.$loadComponent(widget.component, {
-          // https://vuejs.org/v2/api/#propsData
-          propsData: {
-            ...area.props,
-          },
-          vuetify,
-        });
+        let component = vm.$loadComponent(
+          this.preview ? widget.preview : widget.component,
+          {
+            // https://vuejs.org/v2/api/#propsData
+            propsData: {
+              ...area.props,
+            },
+            vuetify,
+          }
+        );
 
         let container = vm.$refs[area.id][0];
         if (container) {
